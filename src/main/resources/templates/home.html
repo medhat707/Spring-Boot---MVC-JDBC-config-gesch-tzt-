@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+				xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	
+<head>
+<meta charset="UTF-8">
+<title> Way 2 Dev Company Home Page </title>		
+</head>
+<body>
+<h2> Way 2 Dev Home Page </h2>
+<hr>
+<p>
+Welcome to Way 2 Dev Company Home Page!	
+</p> 
+<hr>
+<!-- displaying user name and role -->
+<p>
+User <span sec:authentication="principal.username"></span>
+<br><br>
+Role(s) <span sec:authentication="principal.authorities"></span>
+</p>
+<hr>
+<!-- wrapping a div tag around leaders to add security tags -->
+<div sec:authorize="hasRole('MANAGER')">
+<!-- adding link pointing to /leaders -->
+	<p>
+	<a th:href="@{/leaders}">Leadership Meeting </a>
+	(Only for manager peeps)
+	</p>
+</div>
+
+<!-- wrapping a div tag around systems to add security tags -->
+<div sec:authorize="hasRole('ADMIN')">
+<!-- adding link pointing to /leaders -->
+<p>
+<a th:href="@{/systems}">IT systems Meeting </a>
+(Only for Admin peeps)
+</p>
+</div>
+
+<!-- adding logout button -->
+<form action="#" th:action="@{/logout}" method="post">
+<input type="submit" value="logout" />
+</form>
+</body>
+	
+</html>

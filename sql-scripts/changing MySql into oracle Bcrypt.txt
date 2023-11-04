@@ -1,0 +1,32 @@
+-- Drop the tables if they exist
+DROP TABLE authorities;
+DROP TABLE users;
+
+-- Create the users table
+CREATE TABLE users (
+  username VARCHAR2(50) NOT NULL,
+  password CHAR(68 CHAR) NOT NULL,
+  enabled NUMBER(1, 0) NOT NULL,
+  CONSTRAINT pk_users PRIMARY KEY (username)
+);
+
+-- Create the authorities table
+CREATE TABLE authorities (
+  username VARCHAR2(50) NOT NULL,
+  authority VARCHAR2(50) NOT NULL,
+  CONSTRAINT pk_authorities PRIMARY KEY (username, authority),
+  CONSTRAINT fk_authorities_users FOREIGN KEY (username) REFERENCES users(username)
+);
+
+-- Insert data into the users table with pre-hashed passwords
+INSERT INTO users (username, password, enabled) VALUES ('john', '{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q', 1);
+INSERT INTO users (username, password, enabled) VALUES ('mary', '{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q', 1);
+INSERT INTO users (username, password, enabled) VALUES ('susan', '{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q', 1);
+
+-- Insert data into the authorities table
+INSERT INTO authorities (username, authority) VALUES ('john', 'ROLE_EMPLOYEE');
+INSERT INTO authorities (username, authority) VALUES ('mary', 'ROLE_EMPLOYEE');
+INSERT INTO authorities (username, authority) VALUES ('mary', 'ROLE_MANAGER');
+INSERT INTO authorities (username, authority) VALUES ('susan', 'ROLE_EMPLOYEE');
+INSERT INTO authorities (username, authority) VALUES ('susan', 'ROLE_MANAGER');
+INSERT INTO authorities (username, authority) VALUES ('susan', 'ROLE_ADMIN');
